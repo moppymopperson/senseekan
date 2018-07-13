@@ -89,9 +89,7 @@ class Wiimote(object):
         try:
             self._remote = cwiid.Wiimote()
             self._remote.rpt_mode = cwiid.RPT_BTN
-            self._remote.rumble = 1
-            sleep(1)
-            self._remote.rumble = 0
+            self.rumble(0.3, 3)
 
             self.logger.info('Connected to wiimote!')
             self._is_connected = True
@@ -101,6 +99,17 @@ class Wiimote(object):
         except RuntimeError:
             self.logger.warn('Failed to connect to remote. Attempting again.')
             self.search_and_connect()
+
+    def rumble(self, duration=1, times=1):
+        if self._remote is None:
+            self.logger.warn('Cannot rumble in disconnected state!')
+            return
+        
+        for _ in range(times):
+            self._remote.rumble = 1
+            sleep(duration)
+            self._remote.rumble = 0
+            sleep(duration)
 
     def _loop(self):
         self.logger.debug('Beginning loop')
@@ -113,8 +122,10 @@ class Wiimote(object):
                 break
 
         self.logger.info('User disconnected wiimote!')
+        self._reset_state()
+        self.rumble()
         if self.delegate is not None:
-           self.delegate.wiimote_disconnected(self)
+            self.delegate.wiimote_disconnected(self)
 
 
     def _check_exit_condition(self, buttons):
@@ -193,6 +204,40 @@ class Wiimote(object):
             self._right_pressed = False
             if self.delegate is not None:
                 self.delegate.wiimote_released_right(self)
+
+    def _reset_state(self):
+        self.logger.info('Resetting wiimote to original state')
+
+        if self._A_pressed:
+            self._A_pressed = False
+            if self.delegate is not None:
+                self.delegate.wiimote_released_A(self)
+
+        if self._B_pressed:
+            self._B_pressed = False
+            if self.delegate is not None:
+                self.delegate.wiimote_released_B(self)
+
+        if self._up_pressed:
+            self._up_pressed = False
+            if self.delegate is not None:
+                self.delegate.wiimote_released_up(self)
+
+        if self._down_pressed:
+            self._down_pressed = False
+            if self.delegate is not None:
+                self.delegate.wiimote_released_down(self)
+
+        if self._left_pressed:
+            self._left_pressed = False
+            if self.delegate is not None:
+                self.delegate.wiimote_released_left(self)
+
+        if self._right_pressed:
+            self._right_pressed = False
+            if self.delegate is not None:
+                self.delegate.wiimote_released_right(self)
+
 
 if __name__ == '__main__':
     remote = Wiimote()
