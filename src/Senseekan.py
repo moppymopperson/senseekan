@@ -17,20 +17,29 @@ class Senseekan(WiimoteDelegate):
         self.wiimote.search_and_connect()
 
     def start_going_forward(self):
+        self.logger.debug('start_going_forward')
         self.left_motor.start()
         self.right_motor.start()
 
     def start_turning_right(self):
+        self.logger.debug('start_turning_right')
         self.left_motor.start()
         self.right_motor.stop()
 
     def start_turning_left(self):
+        self.logger.debug('start_turning_left')
         self.right_motor.start()
         self.left_motor.stop()
 
     def stop(self):
+        self.logger.debug('stop')
         self.right_motor.stop()
         self.left_motor.stop()
+
+    def shutdown(self):
+        self.logger.info('shutdown')
+        self.wiimote.disconnect()
+        GPIO.cleanup()
 
     # Wiimote Delegate Methods
 
@@ -40,7 +49,8 @@ class Senseekan(WiimoteDelegate):
     def wiimote_disconnected(self, wiimote):
         self.logger.info('Wiimote disconnected!')
         self.stop()
-        self.connect()
+        # self.connect()
+        self.shutdown()
 
     def wiimote_pressed_left(self, wiimote):
         self.logger.debug('Turning Left')
@@ -90,12 +100,12 @@ if __name__ == '__main__':
     GPIO.setmode(GPIO.BOARD)
 
     left = Motor(37, 35)
-    right = Motor(31, 33)
+    right = Motor(33, 31)
     seekan = Senseekan(left, right)
 
     try:
         seekan.connect()
     except KeyboardInterrupt:
         print("Cleaning up...")
-        GPIO.cleanup()
+        seekan.shutdown()
         print("Done")
