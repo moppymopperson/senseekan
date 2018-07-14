@@ -131,6 +131,10 @@ class Wiimote(object):
             sleep(duration)
 
     def disconnect(self):
+        if not self.is_connected:
+            self.logger.warning('Remote already disconnected. Ignoring.')
+            return
+
         self.logger.info('User disconnected wiimote!')
         if self._remote is not None:
             self.rumble()
@@ -228,7 +232,7 @@ class Wiimote(object):
 
         if buttons & cwiid.BTN_UP:
             self.logger.debug('Pressed Up')
-            if self._up_pressed:
+            if not self._up_pressed:
                 self._up_pressed = True
                 if self.delegate is not None:
                     self.delegate.wiimote_pressed_up(self)

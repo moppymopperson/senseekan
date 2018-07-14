@@ -1,0 +1,15 @@
+<html>
+
+<head>
+    <title>Camera Sample</title>
+</head>
+
+<body>
+    <img id="mov" src="test.jpg" />
+</body>
+<script>
+    const image = document.getElementById('mov')
+    image.src = "http://raspberrypi.local:8080/?action=stream"
+</script>
+
+</html>

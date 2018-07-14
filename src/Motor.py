@@ -24,9 +24,15 @@ class Motor(object):
 if __name__ == "__main__":
     from time import sleep
     GPIO.setmode(GPIO.BOARD)
+
     motor = Motor(37, 35)
     motor.start()
-    sleep(2.0)
+    sleep(1.0)
+    motor.stop()
+
+    motor = Motor(31, 33)
+    motor.start()
+    sleep(1.0)
     motor.stop()
 
     GPIO.cleanup()

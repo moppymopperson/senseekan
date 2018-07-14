@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Camera Sample</title>
+    <style>
+        #viewer {
+            width: 1024px;
+            height: 512px;
+            position: relative;
+            background-color: #000000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="viewer" />
+</body>
+<script src="three.min.js "></script>
+<script src="thetaview.js "></script>
+<script>
+
+
+    // Create a canvas element for rendering each frame to.Note that this
+    // canvas is not actually added to the DOM, it's just for computations.
+    const videoImage = document.createElement('canvas')
+    videoImage.id = '2d'
+    videoImage.width = 1024
+    videoImage.height = 1024
+    document.body.appendChild(videoImage)
+
+    // Get the context to draw into. We render the image into the canvas,
+    // and then create a texture from the result. Actual rendering happens
+    // later during `animate`
+    const context = videoImage.getContext('2d')
+    context.fillStyle = '#FF00FF'
+    context.fillRect(0, 0, videoImage.width, videoImage.height)
+
+    const viewer = document.getElementById('viewer')
+    const thetaView = new ThetaView()
+
+    // Start capturing images from the MJPEG Stream
+    const image = new Image()
+    image.src = 'http://raspberrypi.local:8080/?action=stream'
+    image.crossOrigin = "anonymous"
+    thetaView.setContainer(viewer)
+    thetaView.start(videoImage)
+    animate()
+
+    function animate() {
+        requestAnimationFrame(animate)
+        context.drawImage(image, 0, 0, videoImage.width, videoImage.height)
+    }
+
+    // animate()
+    // // Create a texture from the canvas. Right now its blank, but we'll force
+    // // the texture to update each frame.
+    // const texture = new THREE.Texture(videoImage)
+    // texture.minFilter = THREE.LinearFilter
+    // texture.maxFilter = THREE.LinearFilter
+
+    // // Create a mesh. A mesh is built with a material and a geometry to which it
+    // // is applied.
+    // const movieGeometry = new THREE.PlaneGeometry(10, 10, 4, 4)
+    // const movieMaterial = new THREE.MeshBasicMaterial({ map: texture, overdraw: true, side: THREE.DoubleSide });
+    // const movieScreen = new THREE.Mesh(movieGeometry, movieMaterial)
+
+    // // Create a camera and specify the view angle, etc.
+    // // const camera = new THREE.PerspectiveCamera(75, videoImage.width / videoImage.height, 0.1, 10000)
+    // const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000)
+    // camera.position.z = 5
+
+    // // Create a scene and add both the mesh and cameera to it
+    // const scene = new THREE.Scene()
+    // scene.add(movieScreen)
+    // scene.add(camera)
+
+    // // Create a renderer to draw the scene to the canvas
+    // const renderer = new THREE.WebGLRenderer()
+    // renderer.setSize(videoImage.width, videoImage.height)
+    // renderer.render(scene, camera)
+
+    // // Add the renderer to the screen
+    // const viewer = document.getElementById('viewer')
+    // viewer.appendChild(renderer.domElement)
+
+    // function animate() {
+    //     requestAnimationFrame(animate)
+
+    //     // Update the context and the texture here
+    //     context.drawImage(image, 0, 0, videoImage.width, videoImage.height)
+    //     texture.needsUpdate = true
+    //     renderer.render(scene, camera)
+    // }
+
+    // animate()
+
+</script>
+
+</html>
