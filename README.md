@@ -1,9 +1,9 @@
 # Senseekan
 
 ## Setting up on Docker
-The easiest way to run Senseekan is with Docker Compose. All you need to do is clone the repository and then `docker-compose up` from the root directory. The compose file will setup both the bluetooth wiimote server and the webcam server to run automatically on startup. This way, Senseekan will continually try to connect to wiimotes and webcams any time that it has power.
+The easiest way to run Senseekan is with Docker Compose. All you need to do is clone the repository and then run `docker-compose up` from the root directory. The compose file will setup a group of containers running all the softare in the proper environment for each. 
 
-## Detailed Setup Instructions
+## Setup Instructions
 1. Install docker on your RPi
   - You'll find various sets of instructions on the web. I used this `curl -sSL https://get.docker.com | sh`
 2. Install `docker-compose` on your RPi
@@ -19,6 +19,14 @@ The easiest way to run Senseekan is with Docker Compose. All you need to do is c
   - You're all set now. The containers should run automatically anytime you power on your RPi
 5. From a browser, connect to your raspberrypi via IP address or hostname
   - Probably something like `http://raspberypi.local` or `http://192.168.2.1`
+
+## Running Automatically on Startup
+Docker has a convenient `--restart always` flag the I tried to use to make the containers restart on boot, but it happens too early in the boot process and causes some problems. A better solution is to setup Senseekan as a service and let `systemd` handle it for you.
+1. Update the working directory in `senseekan.service` to the directory you have cloned Senseekan to
+2. Copy the `senseekan.service` file to /etc/systemd/system/senseekan.service
+3. Run `sudo systemctl enable senseekan` to register the new service to run at startup
+4. Either reboot or run `sudo systemctl start` to get the new service running
+  - After reboot you can check that it worked by running `docker ps` to see if all the containers are up
 
 ## Composition
 There are 4 containers involved in this app.

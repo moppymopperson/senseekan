@@ -53,50 +53,6 @@
         requestAnimationFrame(animate)
         context.drawImage(image, 0, 0, videoImage.width, videoImage.height)
     }
-
-    // animate()
-    // // Create a texture from the canvas. Right now its blank, but we'll force
-    // // the texture to update each frame.
-    // const texture = new THREE.Texture(videoImage)
-    // texture.minFilter = THREE.LinearFilter
-    // texture.maxFilter = THREE.LinearFilter
-
-    // // Create a mesh. A mesh is built with a material and a geometry to which it
-    // // is applied.
-    // const movieGeometry = new THREE.PlaneGeometry(10, 10, 4, 4)
-    // const movieMaterial = new THREE.MeshBasicMaterial({ map: texture, overdraw: true, side: THREE.DoubleSide });
-    // const movieScreen = new THREE.Mesh(movieGeometry, movieMaterial)
-
-    // // Create a camera and specify the view angle, etc.
-    // // const camera = new THREE.PerspectiveCamera(75, videoImage.width / videoImage.height, 0.1, 10000)
-    // const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000)
-    // camera.position.z = 5
-
-    // // Create a scene and add both the mesh and cameera to it
-    // const scene = new THREE.Scene()
-    // scene.add(movieScreen)
-    // scene.add(camera)
-
-    // // Create a renderer to draw the scene to the canvas
-    // const renderer = new THREE.WebGLRenderer()
-    // renderer.setSize(videoImage.width, videoImage.height)
-    // renderer.render(scene, camera)
-
-    // // Add the renderer to the screen
-    // const viewer = document.getElementById('viewer')
-    // viewer.appendChild(renderer.domElement)
-
-    // function animate() {
-    //     requestAnimationFrame(animate)
-
-    //     // Update the context and the texture here
-    //     context.drawImage(image, 0, 0, videoImage.width, videoImage.height)
-    //     texture.needsUpdate = true
-    //     renderer.render(scene, camera)
-    // }
-
-    // animate()
-
 </script>
 
 </html>
