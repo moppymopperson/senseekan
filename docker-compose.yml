@@ -1,0 +1,35 @@
+version: '3'
+services:
+  nginxproxy:
+    restart: always
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports: 
+      - "80:80"
+
+  web:
+    restart: always
+    volumes:
+      - ./web:/senseekan-web
+    ports:
+      - "8000:8000"
+    image: resin/raspberrypi3-python
+    command: bash "-c" "cd senseekan-web && python -m SimpleHTTPServer 8000"
+
+  senseekan:
+    restart: always
+    privileged: true
+    network_mode: "host"
+    volumes:
+      - ./src:/senseekan
+    build:
+      context: ./
+    command: bash "-c" "cd senseekan && python Senseekan.py"
+    
+  streamer:
+    restart: always
+    privileged: true
+    volumes:
+      - /dev:/dev
+    image: mhamanaka/rpi-mjpg-streamer-uvc:0.1
