@@ -30,6 +30,8 @@ services:
   streamer:
     restart: on-failure
     privileged: true
+    ports:
+      - "8080:8080"
     volumes:
       - /dev:/dev
     image: mhamanaka/rpi-mjpg-streamer-uvc:0.1

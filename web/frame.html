@@ -27,6 +27,9 @@
     videoImage.id = '2d'
     videoImage.width = 1024
     videoImage.height = 1024
+    
+    // Uncomment to show the raw video
+    //document.body.appendChild(videoImage)
 
     // Get the context to draw into. We render the image into the canvas,
     // and then create a texture from the result. Actual rendering happens
@@ -40,11 +43,15 @@
 
     // Start capturing images from the MJPEG Stream
     const image = new Image()
-    image.src = '/stream'
+    //image.src = '/stream'
+    image.src = '/snapshot'
     image.crossOrigin = "anonymous"
+    image.onload = () => {
+      context.drawImage(image, 0, 0, videoImage.width, videoImage.height)
+    }
     thetaView.setContainer(viewer)
     thetaView.start(videoImage)
-    animate()
+    // animate()
 
     function animate() {
         requestAnimationFrame(animate)

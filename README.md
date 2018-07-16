@@ -20,6 +20,7 @@ The easiest way to run Senseekan is with Docker Compose. All you need to do is c
 5. From a browser, connect to your raspberrypi via IP address or hostname
   - Probably something like `http://raspberypi.local` or `http://192.168.2.1`
   - If you want to see the raw, unprojected video stream (like when using a standard webcam instead of a Theta S), you can visit `http://yourhostname.local/webcam`
+  - You can also get a single frame by going to `http://yourhostname.local/frame`
 
 ## Composition
 There are 4 containers involved in this app.
@@ -44,3 +45,5 @@ You probably won't have access to a wireless network when using Senseekan, so th
 
 There are a number of guides on how to do this. The official docs are out of date and don't work. I've found the easiest solution is this script.
 https://gist.github.com/Lewiscowles1986/fecd4de0b45b2029c390
+
+You may find, as I did, that the RPi is pretty terrible access point, and cannot stream data anywhere near fast enough to be useful. I wound up buying a mobil nano router and using that as an access point instead.
