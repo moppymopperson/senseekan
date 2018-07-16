@@ -18,7 +18,7 @@ services:
     command: bash "-c" "cd senseekan-web && python -m SimpleHTTPServer 8000"
 
   senseekan:
-    restart: on-failure
+    restart: always
     privileged: true
     network_mode: "host"
     volumes:
