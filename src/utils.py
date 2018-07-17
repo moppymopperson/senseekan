@@ -9,5 +9,5 @@ def make_logger(name):
 
     logger = logging.getLogger(name)
     logger.addHandler(io_handler)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     return logger
