@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"fmt"
 
 	"github.com/gorilla/websocket"
 )
@@ -11,9 +12,9 @@ import (
 var clients = make(map[*websocket.Conn]bool)
 
 // The boat that we will control with the server.
-var boat = NewSenseekan(MotorPins{1, 2}, MotorPins{3, 4})
+// var boat = NewSenseekan(MotorPins{6, 13}, MotorPins{19, 26})
 
-// Configure the upgrader
+// Configure the upgrader to convert HTTP requests to websockets
 var upgrader = websocket.Upgrader{}
 
 // Command from the client including direcitions "forward", "left", "right"
@@ -27,7 +28,7 @@ var commands = make(chan Command)
 func main() {
 
 	// Create a simple file server. This will serve the .js files to clinets.
-	fs := http.FileServer(http.Dir("./public"))
+	fs := http.FileServer(http.Dir("../public"))
 	http.Handle("/", fs)
 
 	// Configure websocket route
@@ -74,6 +75,7 @@ func handleCommand() {
 	for {
 		// Grab the next message from the broadcast channel
 		cmd := <-commands
+		fmt.Println(cmd)
 		log.Print(cmd)
 	}
 }

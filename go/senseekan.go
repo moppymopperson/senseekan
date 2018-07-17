@@ -8,7 +8,7 @@ import (
 
 func init() {
 	if err := rpio.Open(); err != nil {
-		log.Fatal("Unable to initialize GPIO")
+		log.Fatal("Unable to initialize GPIO", err)
 	}
 }
 

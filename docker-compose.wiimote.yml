@@ -8,16 +8,24 @@ services:
     ports: 
       - "80:80"
 
-  boat:
-    restart: always
-    privileged: true
+  web:
+    restart: on-failure
     volumes:
-      - /dev/mem:/dev/mem
-      - ./public:/go/src/public
+      - ./web:/senseekan-web
     ports:
       - "8000:8000"
+    image: resin/raspberrypi3-python
+    command: bash "-c" "cd senseekan-web && python -m SimpleHTTPServer 8000"
+
+  senseekan:
+    restart: always
+    privileged: true
+    network_mode: "host"
+    volumes:
+      - ./python:/senseekan
     build:
-      context: ./go
+      context: ./python
+    command: bash "-c" "cd senseekan && python Senseekan.py"
     
   streamer:
     restart: on-failure

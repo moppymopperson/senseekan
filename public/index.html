@@ -12,14 +12,31 @@
         }
     </style>
 </head>
+<script> 
+    const ws = new WebSocket('ws://' + window.location.host + '/ws')
+    function sendDirection(direction) {
+      console.log(`Sending direction: ${direction}`)
+      ws.send(JSON.stringify({direction}))
+    }
+</script>
 
 <body>
     <div id="viewer" />
+    <div id="buttoncontainer">
+   	<button type="button" onmousedown="sendDirection('left')" 
+			      onmouseup="sendDirection('stop')"
+			      onmouseleave="sendDirection('stop')">Left</button>
+   	<button type="button" onmousedown="sendDirection('forward')" 
+			      onmouseup="sendDirection('stop')"
+			      onmouseout="sendDirection('stop')">Forward</button>
+   	<button type="button" onmousedown="sendDirection('right')" 
+			      onmouseup="sendDirection('stop')" 
+		              onmouseout="sendDirection('stop')">Right</button>
+    </div>
 </body>
 <script src="three.min.js "></script>
 <script src="thetaview.js "></script>
 <script>
-
 
     // Create a canvas element for rendering each frame to.Note that this
     // canvas is not actually added to the DOM, it's just for computations.
