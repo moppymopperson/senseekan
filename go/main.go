@@ -9,7 +9,7 @@ import (
 )
 
 // The boat that we will control with the server.
-// var boat = NewSenseekan(MotorPins{6, 13}, MotorPins{19, 26})
+var boat = NewSenseekan(MotorPins{6, 13}, MotorPins{19, 26})
 
 // Configure the upgrader to convert HTTP requests to websockets
 var upgrader = websocket.Upgrader{}
@@ -70,6 +70,7 @@ func handleConnection(w http.ResponseWriter, r *http.Request) {
 		err := ws.ReadJSON(&cmd)
 		if err != nil {
 			log.Printf("error: %v", err)
+			boat.Stop()
 			break
 		}
 
@@ -85,7 +86,16 @@ func handleConnection(w http.ResponseWriter, r *http.Request) {
 func handleCommands() {
 	for {
 		cmd := <-commands
-		log.Println(cmd.Direction)
+		switch cmd.Direction {
+		case "left":
+			boat.TurnLeft()
+		case "right":
+			boat.TurnRight()
+		case "forward":
+			boat.GoForward()
+		case "stop":
+			boat.Stop()
+		}
 	}
 }
 

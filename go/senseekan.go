@@ -1,12 +1,14 @@
 package main
 
 import (
+	"log"
+
 	"github.com/stianeikeland/go-rpio"
 )
 
 func init() {
 	if err := rpio.Open(); err != nil {
-		// log.Fatal("Unable to initialize GPIO", err)
+		log.Fatal("Unable to initialize GPIO", err)
 	}
 }
 
