@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 <head>
     <title>Senseekan</title>
     <style>
@@ -12,14 +11,12 @@
         }
     </style>
 </head>
-
 <body>
     <div id="viewer" />
 </body>
 <script src="three.min.js "></script>
 <script src="thetaview.js "></script>
 <script>
-
 
     // Create a canvas element for rendering each frame to.Note that this
     // canvas is not actually added to the DOM, it's just for computations.
@@ -28,9 +25,6 @@
     videoImage.width = 1024
     videoImage.height = 1024
     
-    // Uncomment to show the raw video
-    //document.body.appendChild(videoImage)
-
     // Get the context to draw into. We render the image into the canvas,
     // and then create a texture from the result. Actual rendering happens
     // later during `animate`
@@ -43,7 +37,6 @@
 
     // Start capturing images from the MJPEG Stream
     const image = new Image()
-    //image.src = '/stream'
     image.src = '/snapshot'
     image.crossOrigin = "anonymous"
     image.onload = () => {
@@ -51,12 +44,6 @@
     }
     thetaView.setContainer(viewer)
     thetaView.start(videoImage)
-    // animate()
-
-    function animate() {
-        requestAnimationFrame(animate)
-        context.drawImage(image, 0, 0, videoImage.width, videoImage.height)
-    }
 </script>
 
 </html>
