@@ -1,7 +1,7 @@
 *.log
 *.pyc
 
-go/tmp
+go/tmp/
 .vscode/
 .AppleDouble/
 .DS_Store
