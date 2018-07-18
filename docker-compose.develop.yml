@@ -1,0 +1,36 @@
+# This docker-compose file sets up a development environment. Instead of adding
+# the source into the container and building an image, it mounts the source 
+# directory and runs a package that automatially rebuilds the code each time a 
+# file is modified.
+
+version: '3'
+services:
+  nginxproxy:
+    restart: on-failure
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./public:/public
+    ports: 
+      - "80:80"
+
+  boat:
+    restart: always
+    privileged: true
+    volumes:
+      - /dev/mem:/dev/mem
+      - ./public:/go/src/public
+      - ./go:/go/src/senseekan
+    ports:
+      - "8000:8000"
+    image: golang
+    command: bash -c "cd /go/src/senseekan && go get && go get github.com/pilu/fresh && fresh"
+
+  # streamer:
+  #   restart: on-failure
+  #   privileged: true
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - /dev:/dev
+  #   image: mhamanaka/rpi-mjpg-streamer-uvc:0.1
