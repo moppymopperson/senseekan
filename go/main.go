@@ -42,8 +42,7 @@ func main() {
 
 	// Start the server on localhost port 8000 and log any errors
 	log.Println("http server started on :8000")
-	err := http.ListenAndServe(":8000", nil)
-	if err != nil {
+	if err := http.ListenAndServe(":8000", nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
@@ -67,8 +66,7 @@ func handleConnection(w http.ResponseWriter, r *http.Request) {
 	for {
 		// Read in a new message as JSON and map it to a Command object
 		var cmd Command
-		err := ws.ReadJSON(&cmd)
-		if err != nil {
+		if err := ws.ReadJSON(&cmd); err != nil {
 			log.Printf("error: %v", err)
 			boat.Stop()
 			break
