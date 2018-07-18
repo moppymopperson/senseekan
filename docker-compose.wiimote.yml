@@ -1,0 +1,37 @@
+version: '3'
+services:
+  nginxproxy:
+    restart: on-failure
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports: 
+      - "80:80"
+
+  web:
+    restart: on-failure
+    volumes:
+      - ./public:/public
+    ports:
+      - "8000:8000"
+    image: resin/raspberrypi3-python
+    command: bash "-c" "cd public && python -m SimpleHTTPServer 8000"
+
+  boat:
+    restart: always
+    privileged: true
+    network_mode: "host"
+    volumes:
+      - ./python:/senseekan
+    build:
+      context: ./
+    command: bash "-c" "cd senseekan && python Senseekan.py"
+    
+  streamer:
+    restart: on-failure
+    privileged: true
+    ports:
+      - "8080:8080"
+    volumes:
+      - /dev:/dev
+    image: mhamanaka/rpi-mjpg-streamer-uvc:0.1
