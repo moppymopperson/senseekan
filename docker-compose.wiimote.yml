@@ -24,7 +24,7 @@ services:
     volumes:
       - ./python:/senseekan
     build:
-      context: ./
+      context: ./python
     command: bash "-c" "cd senseekan && python Senseekan.py"
     
   streamer:

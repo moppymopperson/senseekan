@@ -2,7 +2,7 @@ package main
 
 import "log"
 
-var boat = NewSenseekan(MotorPins{6, 13}, MotorPins{19, 26})
+var boat = NewSenseekan(MotorPins{19, 26}, MotorPins{13, 6})
 var commandServer = NewWebsocketCommandServer("../public")
 
 func main() {

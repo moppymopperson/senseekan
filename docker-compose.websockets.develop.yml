@@ -26,11 +26,11 @@ services:
     image: golang
     command: bash -c "cd /go/src/senseekan && go get && go get github.com/pilu/fresh && fresh"
 
-  # streamer:
-  #   restart: on-failure
-  #   privileged: true
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - /dev:/dev
-  #   image: mhamanaka/rpi-mjpg-streamer-uvc:0.1
+  streamer:
+    restart: on-failure
+    privileged: true
+    ports:
+      - "8080:8080"
+    volumes:
+      - /dev:/dev
+    image: mhamanaka/rpi-mjpg-streamer-uvc:0.1

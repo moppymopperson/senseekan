@@ -6,12 +6,6 @@ import (
 	"github.com/stianeikeland/go-rpio"
 )
 
-func init() {
-	if err := rpio.Open(); err != nil {
-		log.Fatal("Unable to initialize GPIO", err)
-	}
-}
-
 // Senseekan represents a boat capable of moving left, right, and forward
 type Senseekan struct {
 	leftMotor  *motor
@@ -26,6 +20,10 @@ type MotorPins struct {
 
 // NewSenseekan creates a new boat from the pins associated with its motors.
 func NewSenseekan(leftPins MotorPins, rightPins MotorPins) *Senseekan {
+	log.Println("Initializing pins...", leftPins, rightPins)
+	if err := rpio.Open(); err != nil {
+		log.Fatal("Unable to initialize GPIO", err)
+	}
 	leftMotor := newMotor(leftPins)
 	rightMotor := newMotor(rightPins)
 	return &Senseekan{leftMotor, rightMotor}
@@ -46,7 +44,7 @@ func (s *Senseekan) TurnRight() {
 // TurnLeft makes the boat turn to the left.
 func (s *Senseekan) TurnLeft() {
 	s.leftMotor.stop()
-	s.rightMotor.stop()
+	s.rightMotor.run()
 }
 
 // Stop makes the boat stop
